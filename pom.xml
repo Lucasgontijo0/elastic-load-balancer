@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.unitri.lucas</groupId>
+    <artifactId>elastic-load-balancer</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>elastic-load-balancer</name>
+    <description>Elastic Load Balancer for tcc.</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.10.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!-- works with v4.3 and forward; see .travis.yml -->
+        <httpclient.version>4.5.3</httpclient.version>
+        <!-- the last version to provide LocalTestServer.java -->
+        <httpclient.test.version>4.3.5</httpclient.test.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Smiley's HTTP Proxy Servlet -->
+        <!-- FYI tomcat 5.5 & beyond -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.test.version}</version>
+            <!--<classifier>tests</classifier>-->
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>httpunit</groupId>
+            <artifactId>httpunit</artifactId>
+            <version>1.7</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Proxy Plugins -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <!-- Note: Java 1.6 has an issue parsing an HttpOnly flag in a Set-Cookie header, but
+                    otherwise works. -->
+                    <compilerArgs>
+                        <arg>-Xlint:all,-serial,-deprecation</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- See
+            http://central.sonatype.org/pages/apache-maven.html#nexus-staging-maven-plugin-for-deployment-and-release
+            mvn release:clean release:prepare
+            mvn release:perform
+            -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--<reporting>-->
+        <!--<plugins>-->
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
+                <!--<version>2.7</version>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; slow: &ndash;&gt;-->
+                    <!--<dependencyLocationsEnabled>false</dependencyLocationsEnabled>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                <!--<version>2.9.1</version>-->
+                <!--<reportSets>-->
+                    <!--<reportSet>-->
+                        <!--<reports>-->
+                            <!--<report>javadoc</report>-->
+                            <!--&lt;!&ndash;<report>test-javadoc</report>&ndash;&gt;-->
+                        <!--</reports>-->
+                    <!--</reportSet>-->
+                <!--</reportSets>-->
+            <!--</plugin>-->
+
+        <!--</plugins>-->
+    <!--</reporting>-->
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>release</id>-->
+
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-source-plugin</artifactId>-->
+                        <!--<version>2.4</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<id>attach-sources</id>-->
+                                <!--<goals>-->
+                                    <!--<goal>jar-no-fork</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+
+                    <!--<plugin>-->
+                        <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                        <!--<version>2.9.1</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<id>attach-javadocs</id>-->
+                                <!--<goals>-->
+                                    <!--<goal>jar</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+
+                    <!--<plugin>-->
+                        <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-gpg-plugin</artifactId>-->
+                        <!--<version>1.6</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<id>sign-artifacts</id>-->
+                                <!--<phase>verify</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>sign</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
+
+
+</project>
