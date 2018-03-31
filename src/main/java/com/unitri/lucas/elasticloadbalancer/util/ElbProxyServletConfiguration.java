@@ -1,4 +1,4 @@
-package com.unitri.lucas.elasticloadbalancer.httpproxy;
+package com.unitri.lucas.elasticloadbalancer.util;
 
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -14,9 +14,9 @@ public class ElbProxyServletConfiguration implements EnvironmentAware{
 
     @Bean
     public ServletRegistrationBean servletRegistrationBean(){
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new ProxyServlet(), propertyResolver.getProperty("servlet_url"));
-        servletRegistrationBean.addInitParameter(ProxyServlet.P_TARGET_URI, propertyResolver.getProperty("target_url"));
-        servletRegistrationBean.addInitParameter(ProxyServlet.P_LOG, propertyResolver.getProperty("logging_enabled", "false"));
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new Proxy(), propertyResolver.getProperty("servlet_url"));
+        servletRegistrationBean.addInitParameter(Proxy.P_TARGET_URI, propertyResolver.getProperty("target_url"));
+        servletRegistrationBean.addInitParameter(Proxy.P_LOG, propertyResolver.getProperty("logging_enabled", "false"));
         return servletRegistrationBean;
     }
 

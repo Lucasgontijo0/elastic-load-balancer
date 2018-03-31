@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.unitri.lucas.elasticloadbalancer.httpproxy;
+package com.unitri.lucas.elasticloadbalancer.util;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIUtils;
