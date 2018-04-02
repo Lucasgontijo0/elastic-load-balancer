@@ -36,6 +36,7 @@ import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -143,7 +144,10 @@ public class ProxyServlet extends HttpServlet {
   }
 
   @Override
-  public void init() throws ServletException {
+  public void init(ServletConfig config) throws ServletException {
+
+    super.init(config);
+
     String doLogStr = getConfigParam(P_LOG);
     if (doLogStr != null) {
       this.doLog = Boolean.parseBoolean(doLogStr);
@@ -381,7 +385,7 @@ public class ProxyServlet extends HttpServlet {
   static {
     hopByHopHeaders = new HeaderGroup();
     String[] headers = new String[] {
-        "Connection", "Keep-Alive", "Proxy-Authenticate", "Proxy-Authorization",
+        "Connection", "Keep-Alive", "ProxyDecorator-Authenticate", "ProxyDecorator-Authorization",
         "TE", "Trailers", "Transfer-Encoding", "Upgrade" };
     for (String header : headers) {
       hopByHopHeaders.addHeader(new BasicHeader(header, null));
@@ -529,7 +533,7 @@ public class ProxyServlet extends HttpServlet {
 
   /** The string prefixing rewritten cookies. */
   protected String getCookieNamePrefix(String name) {
-    return "!Proxy!" + getServletConfig().getServletName();
+    return "!ProxyDecorator!" + getServletConfig().getServletName();
   }
 
   /** Copy response body data (the entity) from the proxy to the servlet client. */
@@ -596,7 +600,7 @@ public class ProxyServlet extends HttpServlet {
        * The URL points back to the back-end server.
        * Instead of returning it verbatim we replace the target path with our
        * source path in a way that should instruct the original client to
-       * request the URL pointed through this Proxy.
+       * request the URL pointed through this ProxyDecorator.
        * We do this by taking the current request and rewriting the path part
        * using this servlet's absolute path and the path from the returned URL
        * after the base target URL.
