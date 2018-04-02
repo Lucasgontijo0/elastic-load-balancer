@@ -1,13 +1,18 @@
 package com.unitri.lucas.elasticloadbalancer.service;
 
-import com.unitri.lucas.elasticloadbalancer.repository.impl.ProxyRequest;
+import com.unitri.lucas.elasticloadbalancer.repository.RepositoryRequest;
+import com.unitri.lucas.elasticloadbalancer.repository.model.ProxyRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
+@Component
+public class RequestService {
 
-public interface RequestService {
+    @Autowired
+    private RepositoryRequest repositoryRequest;
 
-    void saveRequestInfo(ProxyRequest proxyRequest);
-    List<ProxyRequest> getAllRequests();
-    List<ProxyRequest> getRequestsBetween(LocalDateTime startDate, LocalDateTime endDate);
+    public void saveRequestInfo(ProxyRequest proxyRequest){
+        this.repositoryRequest.save(proxyRequest);
+    }
+
 }
