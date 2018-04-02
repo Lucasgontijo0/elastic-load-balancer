@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
-public class ElbProxyServletConfiguration implements EnvironmentAware{
+public class ElbProxyServletConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
     @Bean
-    public ServletRegistrationBean servletRegistrationBean(){
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new Proxy(), propertyResolver.getProperty("servlet_url"));
-        servletRegistrationBean.addInitParameter(Proxy.P_TARGET_URI, propertyResolver.getProperty("target_url"));
-        servletRegistrationBean.addInitParameter(Proxy.P_LOG, propertyResolver.getProperty("logging_enabled", "false"));
+    public ServletRegistrationBean servletRegistrationBean() {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new ProxyDecorator(), propertyResolver.getProperty("servlet_url"));
+        servletRegistrationBean.addInitParameter(ProxyDecorator.P_TARGET_URI, propertyResolver.getProperty("target_url"));
+        servletRegistrationBean.addInitParameter(ProxyDecorator.P_LOG, propertyResolver.getProperty("logging_enabled", "false"));
         return servletRegistrationBean;
     }
 
