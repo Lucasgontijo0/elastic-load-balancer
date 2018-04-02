@@ -1,13 +1,10 @@
 package com.unitri.lucas.elasticloadbalancer.repository;
 
-import com.unitri.lucas.elasticloadbalancer.repository.impl.ProxyRequest;
+import com.unitri.lucas.elasticloadbalancer.repository.model.ProxyRequest;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
+@Repository
+public interface RepositoryRequest extends CrudRepository<ProxyRequest, Long> {
 
-public interface RepositoryRequest {
-
-    void addRequest(ProxyRequest request);
-    List<ProxyRequest> getAllRequests();
-    List<ProxyRequest> getRequestByPeriod(LocalDateTime startDate, LocalDateTime endDate);
 }
