@@ -1,6 +1,8 @@
 package com.unitri.lucas.elasticloadbalancer.util.math.representation;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class ServiceRepresentation {
 
@@ -8,9 +10,9 @@ public class ServiceRepresentation {
     private Timestamp endDate;
     private long duration;
     private Long ammount;
-    private Double arrivalRate;
+    private BigDecimal arrivalRate;
 
-    public ServiceRepresentation(Timestamp startDate, Timestamp endDate, long duration, Long ammount, Double arrivalRate) {
+    public ServiceRepresentation(Timestamp startDate, Timestamp endDate, long duration, Long ammount, BigDecimal arrivalRate) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
@@ -34,7 +36,19 @@ public class ServiceRepresentation {
         return ammount;
     }
 
-    public Double getArrivalRate() {
+    public BigDecimal getArrivalRate() {
         return arrivalRate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServiceRepresentation that = (ServiceRepresentation) o;
+        return duration == that.duration &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(ammount, that.ammount) &&
+                Objects.equals(arrivalRate, that.arrivalRate);
     }
 }
