@@ -1,10 +1,10 @@
-package com.unitri.lucas.elasticloadbalancer.repository.model;
+package com.unitri.lucas.elasticloadbalancer.repository.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -14,11 +14,9 @@ public class ProxyRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private UUID requestId;
-    private LocalDateTime time;
+    private Timestamp time;
 
-    public ProxyRequest() { }
-
-    public ProxyRequest(UUID uuid, LocalDateTime time) {
+    public ProxyRequest(UUID uuid, Timestamp time) {
         this.requestId = uuid;
         this.time = time;
     }
@@ -27,23 +25,11 @@ public class ProxyRequest {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public UUID getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public LocalDateTime getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
