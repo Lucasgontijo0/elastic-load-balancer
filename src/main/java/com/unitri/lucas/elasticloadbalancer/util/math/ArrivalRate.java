@@ -2,6 +2,7 @@ package com.unitri.lucas.elasticloadbalancer.util.math;
 
 import com.unitri.lucas.elasticloadbalancer.util.math.representation.ArrivalRepresentation;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class ArrivalRate {
@@ -18,9 +19,13 @@ public class ArrivalRate {
 
     public ArrivalRepresentation calculateArrivalRate() {
 
-        Long duration = endDate.getTime() - startDate.getTime();
+        long duration = this.endDate.getTime() - this.startDate.getTime();
 
-        double rate = requestAmmount / duration;
+        BigDecimal ammount = new BigDecimal(this.requestAmmount);
+
+        BigDecimal durationDivide = new BigDecimal(duration);
+
+        BigDecimal rate = ammount.divide(durationDivide, 9, BigDecimal.ROUND_HALF_EVEN);
 
         return new ArrivalRepresentation(startDate, endDate, duration, requestAmmount, rate);
     }
