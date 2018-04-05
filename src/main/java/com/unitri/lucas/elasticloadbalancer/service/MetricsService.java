@@ -2,6 +2,7 @@ package com.unitri.lucas.elasticloadbalancer.service;
 
 import com.unitri.lucas.elasticloadbalancer.util.math.ArrivalRate;
 import com.unitri.lucas.elasticloadbalancer.repository.RepositoryRequest;
+import com.unitri.lucas.elasticloadbalancer.util.math.ServiceRate;
 import com.unitri.lucas.elasticloadbalancer.util.math.representation.ArrivalRepresentation;
 import com.unitri.lucas.elasticloadbalancer.util.math.representation.RequestsRepresentation;
 import com.unitri.lucas.elasticloadbalancer.util.math.representation.ServiceRepresentation;
@@ -31,11 +32,17 @@ public class MetricsService {
     }
 
     public ServiceRepresentation getServiceRate(){
-        return null;
+        Timestamp minTime = this.repositoryRequest.findMinTime();
+        Timestamp maxTime = this.repositoryRequest.findMaxTime();
+        long ammountOfRequests = this.repositoryRequest.quantityOfRequestDone();
+        ServiceRate serviceRate = new ServiceRate(ammountOfRequests, minTime, maxTime);
+        return serviceRate.calculateServiceRate();
     }
 
     public ServiceRepresentation getServiceRate(Timestamp start, Timestamp end){
-        return null;
+        long ammountOfRequests = this.repositoryRequest.quantityOfRequestDoneBetweenPeriod(start, end);
+        ServiceRate serviceRate = new ServiceRate(ammountOfRequests, start, end);
+        return serviceRate.calculateServiceRate();
     }
 
     public RequestsRepresentation getRequestsAverage(){
