@@ -1,4 +1,4 @@
-package com.unitri.lucas.elasticloadbalancer.domain;
+package com.unitri.lucas.elasticloadbalancer.util.math;
 
 public class RequestsAverage {
 

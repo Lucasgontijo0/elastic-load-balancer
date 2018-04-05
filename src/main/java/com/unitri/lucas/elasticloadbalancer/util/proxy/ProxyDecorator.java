@@ -1,4 +1,4 @@
-package com.unitri.lucas.elasticloadbalancer.util;
+package com.unitri.lucas.elasticloadbalancer.util.proxy;
 
 import com.unitri.lucas.elasticloadbalancer.repository.RepositoryRequest;
 import com.unitri.lucas.elasticloadbalancer.repository.entity.ProxyRequest;

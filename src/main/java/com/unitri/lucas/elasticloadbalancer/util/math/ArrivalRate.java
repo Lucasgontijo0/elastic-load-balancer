@@ -1,6 +1,6 @@
-package com.unitri.lucas.elasticloadbalancer.domain;
+package com.unitri.lucas.elasticloadbalancer.util.math;
 
-import com.unitri.lucas.elasticloadbalancer.service.representation.ArrivalRepresentation;
+import com.unitri.lucas.elasticloadbalancer.util.math.representation.ArrivalRepresentation;
 
 import java.sql.Timestamp;
 
