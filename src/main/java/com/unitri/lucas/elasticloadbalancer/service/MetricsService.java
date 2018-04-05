@@ -1,12 +1,14 @@
-package com.unitri.lucas.elasticloadbalancer.service.metrics;
+package com.unitri.lucas.elasticloadbalancer.service;
 
-import com.unitri.lucas.elasticloadbalancer.domain.ArrivalRate;
-import com.unitri.lucas.elasticloadbalancer.domain.RequestsRate;
-import com.unitri.lucas.elasticloadbalancer.domain.ServiceRate;
-import com.unitri.lucas.elasticloadbalancer.service.metrics.representation.Arrival;
+import com.unitri.lucas.elasticloadbalancer.util.math.ArrivalRate;
 import com.unitri.lucas.elasticloadbalancer.repository.RepositoryRequest;
+import com.unitri.lucas.elasticloadbalancer.util.math.representation.ArrivalRepresentation;
+import com.unitri.lucas.elasticloadbalancer.util.math.representation.RequestsRepresentation;
+import com.unitri.lucas.elasticloadbalancer.util.math.representation.ServiceRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
 
 @Service
 public class MetricsService {
@@ -14,16 +16,34 @@ public class MetricsService {
     @Autowired
     private RepositoryRequest repositoryRequest;
 
-    @Autowired
-    private ArrivalRate arrivalRate;
-
-    @Autowired
-    private RequestsRate requestsRate;
-
-    @Autowired
-    private ServiceRate serviceRate;
-
-    public Arrival gerArrivalRate() {
-
+    public ArrivalRepresentation getArrivalRate() {
+        Timestamp minTime = this.repositoryRequest.findMinTime();
+        Timestamp maxTime = this.repositoryRequest.findMaxTime();
+        long ammountOfRequests = this.repositoryRequest.quantityOfRequestsThatArrived();
+        ArrivalRate arrivalRate = new ArrivalRate(ammountOfRequests, minTime, maxTime);
+        return arrivalRate.calculateArrivalRate();
     }
+
+    public ArrivalRepresentation getArrivalRate(Timestamp start, Timestamp end) {
+        long ammountOfRequests = this.repositoryRequest.quantityOfRequestsThatArrivedBetweenPeriod(start, end);
+        ArrivalRate arrivalRate = new ArrivalRate(ammountOfRequests, start, end);
+        return arrivalRate.calculateArrivalRate();
+    }
+
+    public ServiceRepresentation getServiceRate(){
+        return null;
+    }
+
+    public ServiceRepresentation getServiceRate(Timestamp start, Timestamp end){
+        return null;
+    }
+
+    public RequestsRepresentation getRequestsAverage(){
+        return null;
+    }
+
+    public RequestsRepresentation getRequestsAverage(Timestamp start, Timestamp end){
+        return null;
+    }
+
 }
