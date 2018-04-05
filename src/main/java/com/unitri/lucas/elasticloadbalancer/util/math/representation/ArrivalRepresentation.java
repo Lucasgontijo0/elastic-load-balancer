@@ -22,39 +22,19 @@ public class ArrivalRepresentation {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
-    }
-
     public Timestamp getEndDate() {
         return endDate;
-    }
-
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
     }
 
     public long getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
     public Long getAmmount() {
         return ammount;
     }
 
-    public void setAmmount(Long ammount) {
-        this.ammount = ammount;
-    }
-
     public Double getArrivalRate() {
         return arrivalRate;
-    }
-
-    public void setArrivalRate(Double arrivalRate) {
-        this.arrivalRate = arrivalRate;
     }
 }

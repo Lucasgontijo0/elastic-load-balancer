@@ -6,10 +6,6 @@ import java.sql.Timestamp;
 
 public class ArrivalRate {
 
-    /*
-     * Calcula a taxa de chegada no proxy, independente se foram atendidas ou não.
-     */
-
     private long requestAmmount;
     private Timestamp startDate;
     private Timestamp endDate;
@@ -21,10 +17,6 @@ public class ArrivalRate {
     }
 
     public ArrivalRepresentation calculateArrivalRate() {
-
-        if (requestAmmount <= 0) {
-            throw new RuntimeException("ProxyDecorator request must have values to calculate.");
-        }
 
         Long duration = endDate.getTime() - startDate.getTime();
 
