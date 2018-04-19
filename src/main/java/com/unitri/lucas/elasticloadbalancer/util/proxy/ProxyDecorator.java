@@ -2,7 +2,6 @@ package com.unitri.lucas.elasticloadbalancer.util.proxy;
 
 import com.unitri.lucas.elasticloadbalancer.repository.RepositoryRequest;
 import com.unitri.lucas.elasticloadbalancer.repository.entity.ProxyRequest;
-import com.unitri.lucas.elasticloadbalancer.util.proxy.ProxyServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -11,10 +10,8 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ProxyDecorator extends ProxyServlet {
@@ -30,21 +27,31 @@ public class ProxyDecorator extends ProxyServlet {
     }
 
     @Override
-    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+    public void service(ServletRequest req, ServletResponse res) {
+
         UUID id = UUID.randomUUID();
-        saveRequest(id);
-        super.service(req, res);
-        saveRequest(id);
+
+        Timestamp startTime = Timestamp.from(Instant.now());
+
+        String status = "SUCCESS";
+
+        try {
+            super.service(req, res);
+        } catch (Exception e) {
+            status = "ERROR";
+        } finally {
+            Timestamp endTime = Timestamp.from(Instant.now());
+            long serviceTime = endTime.getTime() - startTime.getTime();
+            repositoryRequest.save(makeProxyRequest(id, status, startTime, endTime, serviceTime));
+        }
     }
 
-    private void saveRequest(UUID id) {
-        new Thread(() -> {
-            repositoryRequest.save(makeProxyRequest(id));
-        }).start();
-    }
+
+
 
     @Bean
-    private ProxyRequest makeProxyRequest(UUID id) {
-        return new ProxyRequest(id, Timestamp.from(Instant.now()));
+    private ProxyRequest makeProxyRequest(UUID id, String status, Timestamp arrivalTime, Timestamp exitTime,
+                                          long tempoDeServico) {
+        return new ProxyRequest(id, status, arrivalTime, exitTime, tempoDeServico);
     }
 }

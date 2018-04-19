@@ -14,23 +14,36 @@ public class ProxyRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private UUID requestId;
-    private Timestamp time;
+    private String status;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private long serviceTime;
 
-    public ProxyRequest(UUID uuid, Timestamp time) {
-        this.requestId = uuid;
-        this.time = time;
-    }
-
-    public Long getId() {
-        return id;
+    public ProxyRequest(UUID requestId, String status, Timestamp startTime, Timestamp endTime, long serviceTime) {
+        this.requestId = requestId;
+        this.status = status;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.serviceTime = serviceTime;
     }
 
     public UUID getRequestId() {
         return requestId;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public String getStatus() {
+        return status;
     }
 
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public long getServiceTime() {
+        return serviceTime;
+    }
 }
