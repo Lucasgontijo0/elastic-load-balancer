@@ -46,9 +46,6 @@ public class ProxyDecorator extends ProxyServlet {
         }
     }
 
-
-
-
     @Bean
     private ProxyRequest makeProxyRequest(UUID id, String status, Timestamp arrivalTime, Timestamp exitTime,
                                           long tempoDeServico) {
