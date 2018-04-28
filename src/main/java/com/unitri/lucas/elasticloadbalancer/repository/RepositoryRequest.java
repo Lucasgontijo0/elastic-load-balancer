@@ -12,56 +12,47 @@ import java.util.List;
 public interface RepositoryRequest extends CrudRepository<ProxyRequest, Long> {
 
 
-//    /* Get requests */
+    /* Get requests */
 
-//    List<ProxyRequest> findAll();
-//    List<ProxyRequest> findAllByTimeBetween(Timestamp start, Timestamp end);
-//
-//
-//    /* Number of requests that arrived, answered or not. */
-//
-//    @Query(
-//            value = "SELECT count(1)\n"
-//                  + "FROM (SELECT count(request_id)\n"
-//                  + "      FROM proxy_request\n"
-//                  + "      GROUP BY request_id) request_id;",
-//            nativeQuery = true)
-//    long quantityOfRequestsThatArrived();
-//
-//    @Query(
-//            value = "SELECT count(1)\n"
-//                  + "FROM (SELECT count(request_id)\n"
-//                  + "      FROM proxy_request\n"
-//                  + "      WHERE time BETWEEN ?1 AND ?2\n"
-//                  + "      GROUP BY request_id) request_id;",
-//            nativeQuery = true )
-//    long quantityOfRequestsThatArrivedBetweenPeriod(Timestamp start, Timestamp end);
-//
-//    /* Number of requests done */
-//
-//    @Query(
-//            value =  "SELECT count(1) FROM ("
-//                    +    "SELECT count(request_id) FROM proxy_request GROUP BY request_id HAVING count(request_id) > 1"
-//                    + " ) request_id;\n",
-//            nativeQuery = true)
-//    long quantityOfRequestDone();
-//
-//
-//    @Query(
-//            value = "SELECT count(1)\n"
-//                    + "FROM (SELECT count(request_id)\n"
-//                    + "      FROM proxy_request\n"
-//                    + "      WHERE time BETWEEN ?1 AND ?2\n"
-//                    + "      GROUP BY request_id\n"
-//                    + "      HAVING count(request_id) > 1) request_id;",
-//            nativeQuery = true)
-//    long quantityOfRequestDoneBetweenPeriod(Timestamp start, Timestamp end);
-//
-//
-//    @Query(value = "SELECT max(time) FROM proxy_request", nativeQuery = true)
-//    Timestamp findMaxTime();
-//
-//    @Query(value = "SELECT min(time) FROM proxy_request;", nativeQuery = true)
-//    Timestamp findMinTime();
+    List<ProxyRequest> findAll();
+
+    @Query(
+            value = "SELECT * FROM proxy_request\n" +
+                    "WHERE start_time >= ?1 AND end_time <= ?2",
+            nativeQuery = true
+    )
+    List<ProxyRequest> findAllByTimeBetween(Timestamp start, Timestamp end);
+
+    /* Number of requests that arrived, answered or not. */
+
+    @Query(
+            value = "SELECT count(1) FROM proxy_request",
+            nativeQuery = true)
+    long quantityOfRequestsThatArrived();
+
+    @Query(
+            value = "SELECT count(1) FROM proxy_request WHERE start_time >= ?1 AND end_time <= ?2",
+            nativeQuery = true )
+    long quantityOfRequestsThatArrivedBetweenPeriod(Timestamp start, Timestamp end);
+
+    /* Number of requests done */
+
+    @Query(
+            value =  "SELECT count(1) FROM proxy_request WHERE status = 'SUCCESS'",
+            nativeQuery = true)
+    long quantityOfRequestDone();
+
+
+    @Query(
+            value = "SELECT count(1) FROM proxy_request WHERE status = 'SUCCESS' AND start_time >= ?1 AND end_time <= ?2",
+            nativeQuery = true)
+    long quantityOfRequestDoneBetweenPeriod(Timestamp start, Timestamp end);
+
+
+    @Query(value = "SELECT max(start_time) FROM proxy_request", nativeQuery = true)
+    Timestamp findMaxTime();
+
+    @Query(value = "SELECT min(start_time) FROM proxy_request;", nativeQuery = true)
+    Timestamp findMinTime();
 
 }
