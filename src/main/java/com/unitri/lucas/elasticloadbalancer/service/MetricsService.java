@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Service
 public class MetricsService {
 
     @Autowired
@@ -36,14 +37,14 @@ public class MetricsService {
     public ServiceRepresentation getServiceRate(){
         Timestamp minTime = this.repositoryRequest.findMinTime();
         Timestamp maxTime = this.repositoryRequest.findMaxTime();
-        long ammountOfRequests = this.repositoryRequest.quantityOfRequestDone();
-        ServiceRate serviceRate = new ServiceRate(ammountOfRequests, minTime, maxTime);
+        List<ProxyRequest> proxyRequests = this.repositoryRequest.findAllByTimeBetween(minTime, maxTime);
+        ServiceRate serviceRate = new ServiceRate(proxyRequests, minTime, maxTime);
         return serviceRate.calculateServiceRate();
     }
 
     public ServiceRepresentation getServiceRate(Timestamp start, Timestamp end){
-        long ammountOfRequests = this.repositoryRequest.quantityOfRequestDoneBetweenPeriod(start, end);
-        ServiceRate serviceRate = new ServiceRate(ammountOfRequests, start, end);
+        List<ProxyRequest> proxyRequests = this.repositoryRequest.findAllByTimeBetween(start, end);
+        ServiceRate serviceRate = new ServiceRate(proxyRequests, start, end);
         return serviceRate.calculateServiceRate();
     }
 

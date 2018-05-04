@@ -9,9 +9,9 @@ public class RequestsRepresentation {
     private Timestamp startDate;
     private Timestamp endDate;
     private long requestAmmount;
-    private BigDecimal requestAverage;
+    private Double requestAverage;
 
-    public RequestsRepresentation(Timestamp startDate, Timestamp endDate, long requestAmmount, BigDecimal requestAverage) {
+    public RequestsRepresentation(Timestamp startDate, Timestamp endDate, long requestAmmount, Double requestAverage) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.requestAmmount = requestAmmount;
@@ -30,7 +30,7 @@ public class RequestsRepresentation {
         return requestAmmount;
     }
 
-    public BigDecimal getRequestAverage() {
+    public Double getRequestAverage() {
         return requestAverage;
     }
 
@@ -43,5 +43,15 @@ public class RequestsRepresentation {
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(endDate, that.endDate) &&
                 Objects.equals(requestAverage, that.requestAverage);
+    }
+
+    @Override
+    public String toString() {
+        return "RequestsRepresentation{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", requestAmmount=" + requestAmmount +
+                ", requestAverage=" + requestAverage +
+                '}';
     }
 }

@@ -10,15 +10,9 @@ public class ArrivalRate {
     /*
         Taxa de chegada dos clientes - Taxa (número de clientes / unid. tempo) segundo a
         qual os clientes chegam para serem atendidos. O valor médio da taxa de chegada é
-        representado por λ (lambda). Como é raro um processo onde taxa de chegada dos
-        clientes seja regular, ou seja, não existe nenhuma variação entre os valores para os
-        intervalos entre chegadas, são adotadas distribuições de freqüência (normal,
-        Poisson, exponencial etc.) para representar o processo. O mesmo modelo com
-        distribuição normal pode diferir significativamente em termos de resultado do que
-        com uma distribuição de Poisson.
+        representado por λ (lambda).
 
         λ = Nº Chegadas / Tempo
-
     */
 
     private long requestAmmount;
@@ -32,6 +26,15 @@ public class ArrivalRate {
     }
 
     public ArrivalRepresentation calculateArrivalRate() {
-        return null;
+
+        long duration = this.endDate.getTime() - this.startDate.getTime();
+
+        BigDecimal ammount = new BigDecimal(this.requestAmmount);
+
+        BigDecimal durationDivide = new BigDecimal(duration);
+
+        BigDecimal rate = ammount.divide(durationDivide, 4, BigDecimal.ROUND_HALF_EVEN);
+
+        return new ArrivalRepresentation(startDate, endDate, duration, requestAmmount, rate);
     }
 }

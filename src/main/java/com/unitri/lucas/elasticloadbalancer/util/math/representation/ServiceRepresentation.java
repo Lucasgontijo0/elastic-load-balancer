@@ -10,14 +10,14 @@ public class ServiceRepresentation {
     private Timestamp endDate;
     private long duration;
     private Long ammount;
-    private BigDecimal arrivalRate;
+    private Double serviceRate;
 
-    public ServiceRepresentation(Timestamp startDate, Timestamp endDate, long duration, Long ammount, BigDecimal arrivalRate) {
+    public ServiceRepresentation(Timestamp startDate, Timestamp endDate, long duration, Long ammount, Double serviceRate) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
         this.ammount = ammount;
-        this.arrivalRate = arrivalRate;
+        this.serviceRate = serviceRate;
     }
 
     public Timestamp getStartDate() {
@@ -36,8 +36,8 @@ public class ServiceRepresentation {
         return ammount;
     }
 
-    public BigDecimal getArrivalRate() {
-        return arrivalRate;
+    public Double getServiceRate() {
+        return serviceRate;
     }
 
     @Override
@@ -49,6 +49,17 @@ public class ServiceRepresentation {
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(endDate, that.endDate) &&
                 Objects.equals(ammount, that.ammount) &&
-                Objects.equals(arrivalRate, that.arrivalRate);
+                Objects.equals(serviceRate, that.serviceRate);
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceRepresentation{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", duration=" + duration +
+                ", ammount=" + ammount +
+                ", serviceRate=" + serviceRate +
+                '}';
     }
 }

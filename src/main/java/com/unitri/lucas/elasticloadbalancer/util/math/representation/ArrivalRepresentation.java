@@ -51,4 +51,15 @@ public class ArrivalRepresentation {
                 Objects.equals(ammount, that.ammount) &&
                 Objects.equals(arrivalRate, that.arrivalRate);
     }
+
+    @Override
+    public String toString() {
+        return "ArrivalRepresentation{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", duration=" + duration +
+                ", ammount=" + ammount +
+                ", arrivalRate=" + arrivalRate +
+                '}';
+    }
 }

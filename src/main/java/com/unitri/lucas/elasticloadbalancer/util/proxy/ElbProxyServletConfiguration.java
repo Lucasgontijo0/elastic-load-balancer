@@ -1,6 +1,8 @@
 package com.unitri.lucas.elasticloadbalancer.util.proxy;
 
 import com.unitri.lucas.elasticloadbalancer.controllers.MetricaController;
+import com.unitri.lucas.elasticloadbalancer.service.MetricsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.EnvironmentAware;
@@ -13,6 +15,9 @@ public class ElbProxyServletConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
+    @Autowired
+    MetricaController metricaController;
+
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new ProxyDecorator(), propertyResolver.getProperty("servlet_url"));
@@ -24,7 +29,7 @@ public class ElbProxyServletConfiguration implements EnvironmentAware {
     @Bean
     public ServletRegistrationBean servletRegistrationMetricaControllerBean() {
         ServletRegistrationBean servletRegistrationBean =
-                new ServletRegistrationBean(new MetricaController(), "/metricas");
+                new ServletRegistrationBean(metricaController, "/metricas");
         return servletRegistrationBean;
     }
 

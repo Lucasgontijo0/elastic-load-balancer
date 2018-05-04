@@ -19,6 +19,9 @@ public class ProxyRequest {
     private Timestamp endTime;
     private long serviceTime;
 
+    public ProxyRequest() {
+    }
+
     public ProxyRequest(UUID requestId, String status, Timestamp startTime, Timestamp endTime, long serviceTime) {
         this.requestId = requestId;
         this.status = status;

@@ -17,7 +17,7 @@ import java.util.UUID;
 public class ProxyDecorator extends ProxyServlet {
 
     @Autowired
-    RepositoryRequest repositoryRequest;
+    private RepositoryRequest repositoryRequest;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
